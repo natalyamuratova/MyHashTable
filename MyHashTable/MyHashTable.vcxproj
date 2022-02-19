@@ -140,9 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="HashTable.h" />
+    <ClInclude Include="LinearProbingTable.h" />
     <ClInclude Include="SeparateChainingTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LinearProbingTable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SeparateChainingTable.cpp" />
   </ItemGroup>

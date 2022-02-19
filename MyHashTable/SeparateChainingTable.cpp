@@ -5,29 +5,29 @@ SeparateChainingTable::SeparateChainingTable(int tableSize) {
 	this->size = 0;
 	this->cells = new Node* [tableSize];
 	for (int i = 0; i < tableSize; i++)
-		cells[i] = nullptr;
+		this->cells[i] = nullptr;
 }
 
 SeparateChainingTable::SeparateChainingTable(const SeparateChainingTable& table) {
 	this->capacity = table.capacity;
 	this->size = table.size;
 
-	this->cells = new Node* [capacity];
+	this->cells = new Node* [this->capacity];
 	for (int i = 0; i < this->capacity; i++) {
-		cells[i] = nullptr;
+		this->cells[i] = nullptr;
 
 		Node* p = table.cells[i];
-		while (p) {
+		while (p != nullptr) {
 			Node* node = new Node;
 			node->key = p->key;
 			node->value = p->value;
 			node->next = nullptr;
 
-			if (cells[i]) {
-				cells[i]->next = node;
+			if (this->cells[i]) {
+				this->cells[i]->next = node;
 			}
 			else {
-				cells[i] = node;
+				this->cells[i] = node;
 			}
 
 			p = p->next;
@@ -125,7 +125,7 @@ TValue SeparateChainingTable::get(TKey key)
 		node = node->next;
 
 	if (node == nullptr)
-		throw string("No value with this key");
+		throw std::string("No value with this key");
 
 	return node->value;
 }
@@ -133,13 +133,13 @@ TValue SeparateChainingTable::get(TKey key)
 void SeparateChainingTable::print()
 {
 	for (int i = 0; i < capacity; i++) {
-		cout << "[" << i << "]: ";
+		std::cout << "[" << i << "]: ";
 		Node* node = cells[i];
 		while (node != nullptr){
-			cout << node->value << "(" << node->key << ") ";
+			std::cout << node->value << "(" << node->key << ") ";
 			node = node->next;
 		}
-		cout << endl;
+		std::cout << std::endl;
 	}
 }
 

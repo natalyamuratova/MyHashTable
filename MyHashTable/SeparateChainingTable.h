@@ -3,8 +3,6 @@
 #include <iostream>
 #include "HashTable.h"
 
-using namespace std;
-
 class SeparateChainingTable : public HashTable {
 	int capacity;	// емкость таблицы
 	int size;		// число элементов в таблице
