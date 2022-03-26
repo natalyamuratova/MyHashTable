@@ -1,3 +1,5 @@
+#include <string>
+#include <iostream>
 #include "SeparateChainingTable.h"
 
 SeparateChainingTable::SeparateChainingTable(int tableSize) {

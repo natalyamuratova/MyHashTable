@@ -1,17 +1,14 @@
-#pragma once
-
-#pragma once
-
-#include <iostream>
 #include "HashTable.h"
 
+#pragma once
+
 class LinearProbingTable : public HashTable {
-	int capacity;
-	int size;
+	int capacity;	// max value of cells number in table
+	int size;		// current value of cells number in table
 
 	const int FREE = 0;
 	const int BUSY = 1;
-	const int REMOVED = 2;
+	const int REMOVED = -1;
 
 	struct HashNode {
 		TKey key;

@@ -1,3 +1,5 @@
+#include <string>
+#include <iostream>
 #include "LinearProbingTable.h"
 
 LinearProbingTable::LinearProbingTable(int tableSize) {
@@ -23,9 +25,26 @@ int LinearProbingTable::hash(TKey key) {
 	return key % capacity;
 }
 
+void rehash() {
+	// 0. —охран€ем старый массив cells в tempCells
+
+	// 1. »змен€ем внутреннее состо€ние:
+	// измен€ем capacity
+	// выдел€ем пам€ть под €чейки в соответствии с capacity (массив cells)
+
+	// 2. ѕереносим €чейки из старой таблицы в новую:
+	// for (int i = 0; i < capacity / 2; i++) {
+	//	if (tempCells[i].state == BUSY) {
+	//		insert(tempCells[i].key, tempCells[i].value);
+	//	}
+	// }
+
+	// 3. ќсвободить пам€ть, занимаемую массивом tempCells.
+}
+
 void LinearProbingTable::insert(TKey key, TValue value) {
 	if (size == capacity) {
-		// rehash();
+		rehash();
 	}
 
 	int index = hash(key);
@@ -39,4 +58,87 @@ void LinearProbingTable::insert(TKey key, TValue value) {
 	cells[index].state = BUSY;
 
 	size++;
+}
+
+bool LinearProbingTable::remove(TKey key) {
+	int index = hash(key);
+	int iteration = 0;
+
+	while (cells[index].state != FREE && cells[index].key != key && iteration < capacity) {
+		index = (index + 1) % capacity;
+		iteration++;
+	}
+
+	if (cells[index].state == FREE || iteration >= capacity) {
+		return false;
+	}
+
+	cells[index].state = REMOVED;
+	size--;
+	return true;
+}
+
+
+bool LinearProbingTable::find(TKey key)
+{
+	int index = hash(key);
+	int iteration = 0;
+
+	while (cells[index].state != FREE && cells[index].key != key && iteration < capacity) {
+		index = (index + 1) % capacity;
+		iteration++;
+	}
+	return iteration != capacity && cells[index].state == BUSY;
+}
+
+TValue LinearProbingTable::get(TKey key)
+{
+	int index = hash(key);
+	int iteration = 0;
+	
+	while(cells[index].state != FREE && cells[index].key != key && iteration < capacity) {
+		index = (index + 1) % capacity;
+		iteration++;
+	}
+
+	if (iteration == capacity || cells[index].state == FREE) {
+		throw std::string("Error: element is not found");
+	}
+
+	return cells[index].value;
+}
+
+
+void LinearProbingTable::clear()
+{
+	for (int i = 0; i < capacity; i++)
+		cells[i].state = FREE;
+
+	size = 0;
+}
+
+int LinearProbingTable::getSize()
+{
+	return size;
+}
+
+bool LinearProbingTable::isEmpty()
+{
+	return size == 0;
+}
+
+void LinearProbingTable::print() {
+	for (int i = 0; i < capacity; i++) {
+		std::cout << "[" << i << "]: ";
+		if (cells[i].state == BUSY) {
+			std::cout << cells[i].value << "(" << cells[i].key << ") ";
+		}
+		std::cout << std::endl;
+	}
+}
+
+LinearProbingTable::~LinearProbingTable()
+{
+	clear();
+	delete[] cells;
 }

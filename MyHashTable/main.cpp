@@ -1,16 +1,10 @@
 #include <iostream>
-
+#include <string>
 #include "SeparateChainingTable.h"
-
-void test(SeparateChainingTable table) {
-    table.insert(3, 1);
-    table.insert(4, 4);
-    table.print();
-    std::cout << std::endl;
-}
+#include "LinearProbingTable.h"
 
 int main() {
-    SeparateChainingTable table(10);
+    LinearProbingTable table(10);
 
     table.insert(1, 1);
     table.insert(1, 2);
@@ -18,18 +12,24 @@ int main() {
     table.print();
     std::cout << std::endl;
 
-    test(table);
-
-    table.print();
-    std::cout << std::endl;
+    if (table.find(2)) {
+        std::cout << "element found" << std::endl;
+    }
+    else {
+        std::cout << "not found" << std::endl;
+    }
 
     try {
-        std::cout << table.get(7);
+        TValue val = table.get(5);
     }
-    catch (std::string e) {
-        std::cout << "Search value not found.";
-    }
+    catch (std::string obj) {
+        std::cout << obj << '\n';
+   }
 
+    table.remove(1);
+    table.remove(2);
+    table.print();
+    std::cout << std::endl;
 
     return 0;
 }

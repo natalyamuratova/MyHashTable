@@ -1,11 +1,10 @@
-#pragma once
-
-#include <iostream>
 #include "HashTable.h"
 
+#pragma once
+
 class SeparateChainingTable : public HashTable {
-	int capacity;	// емкость таблицы
-	int size;		// число элементов в таблице
+	int capacity;	// max value of cells number in table
+	int size;		// current value of cells number in table
 
 	struct Node {
 		TKey key;
